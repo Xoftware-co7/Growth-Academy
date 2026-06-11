@@ -354,11 +354,11 @@
 </footer>
 
 <script>
-  /* ── GOOGLE SHEET ENDPOINT ──────────────────────────────────────────
-     Paste your Google Apps Script Web App URL below.
-     See the setup instructions in the HTML comments at the top.
+  /* ── FORMSPREE ENDPOINT ─────────────────────────────────────────────
+     This form submits to Formspree, which handles delivery to your email
+     and can integrate with Google Sheets via Zapier if needed.
   ──────────────────────────────────────────────────────────────────── */
-  const SHEET_ENDPOINT = "https://script.google.com/macros/s/AKfycbxgF214I609BKjG9S6ULWtiqpAmHrxVpl8LT0pE0Daqq-R-FENXpNI9IvSq11pfk3U/exec";
+  const SHEET_ENDPOINT = "https://formspree.io/f/xaqzpopv";
 
   async function handleWaitlist(e) {
     e.preventDefault();
@@ -414,20 +414,14 @@
     };
 
     try {
-      if (SHEET_ENDPOINT === "PASTE_YOUR_GOOGLE_APPS_SCRIPT_URL_HERE") {
-        // Demo mode — no endpoint yet
-        await new Promise(r => setTimeout(r, 1600));
-        showSuccess();
-        return;
-      }
       const res = await fetch(SHEET_ENDPOINT, {
         method: "POST",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify(payload)
       });
       const data = await res.json();
-      if (data.result === "success") { showSuccess(); }
-      else { throw new Error("Sheet returned an error."); }
+      if (data.ok) { showSuccess(); }
+      else { throw new Error("Submission failed."); }
     } catch (err) {
       document.getElementById("wlBtnText").style.display = "inline-flex";
       document.getElementById("wlBtnLoad").style.display = "none";
