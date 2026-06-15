@@ -448,6 +448,7 @@ src="https://www.facebook.com/tr?id=1568967191461695&ev=PageView&noscript=1"
   }
 
   function showSuccess() {
+    fbq('track', 'Lead');
     document.getElementById("wlForm").style.display = "none";
     const s = document.getElementById("wlSuccess");
     s.style.display = "flex";
